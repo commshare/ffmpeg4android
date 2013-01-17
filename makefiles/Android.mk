@@ -7,14 +7,12 @@ LOCAL_PATH:=$(call my-dir)
 FFMPEG_ROOT_DIR := $(LOCAL_PATH)
 FFMPEG_CONFIG_DIR := android/$(TARGET_PRODUCT)-$(TARGET_BUILD_VARIANT)
 
-VERSION_SUFFIX := -$(shell (cat $(FFMPEG_ROOT_DIR)/VERSION))
-$(warning $(VERSION_SUFFIX))    
+VERSION_SUFFIX := -$(shell (cat $(FFMPEG_ROOT_DIR)/RELEASE))
+$(warning $(VERSION_SUFFIX))
 
-ifeq ($(VERSION_SUFFIX),-)
-    VERSION_SUFFIX := -HEAD-1.0
-endif
-
-ifeq ($(findstring 1.0, $(VERSION_SUFFIX)),1.0)
+ifeq ($(findstring 1.1, $(VERSION_SUFFIX)),1.1)
+    VERSION_BRANCH := 1.1
+else ifeq ($(findstring 1.0, $(VERSION_SUFFIX)),1.0)
     VERSION_BRANCH := 1.0
 else ifeq ($(findstring 0.11, $(VERSION_SUFFIX)),0.11)
     VERSION_BRANCH := 0.11
@@ -466,8 +464,32 @@ endif
 
 #============================== ffplay ==================================
 ifeq ($(CONFIG_FFPLAY),yes)
-    $(error Building FFplay is not supported, yet...)
-    #include $(FFMPEG_ROOT_DIR)/Android_ffplay.mk
+    ifeq ($(CONFIG_SHARED),yes)
+        include $(CLEAR_VARS)
+        LOCAL_SRC_FILES := \
+            cmdutils.c \
+            ffplay.c
+        LOCAL_C_INCLUDES := \
+            $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR)
+        LOCAL_SHARED_LIBRARIES := \
+            $(TOOLS_LIBRARIES)
+        LOCAL_MODULE_TAGS := optional
+        LOCAL_MODULE := ffplay$(VERSION_SUFFIX)
+        include $(BUILD_EXECUTABLE)
+    endif
+    ifeq ($(CONFIG_STATIC),yes)
+        include $(CLEAR_VARS)
+        LOCAL_SRC_FILES := \
+            cmdutils.c \
+            ffplay.c
+        LOCAL_C_INCLUDES := \
+            $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR)
+        LOCAL_STATIC_LIBRARIES := \
+            $(TOOLS_LIBRARIES)
+        LOCAL_MODULE_TAGS := optional
+        LOCAL_MODULE := ffplay-static$(VERSION_SUFFIX)
+        include $(BUILD_EXECUTABLE)
+    endif
 endif
 #========================================================================
 
@@ -478,6 +500,11 @@ ifeq ($(CONFIG_FFMPEG),yes)
         LOCAL_SRC_FILES := \
             cmdutils.c \
             ffmpeg.c
+        ifeq ($(VERSION_BRANCH),1.1)
+            LOCAL_SRC_FILES +=  \
+                ffmpeg_filter.c \
+                ffmpeg_opt.c
+        endif
         ifeq ($(VERSION_BRANCH),1.0)
             LOCAL_SRC_FILES +=  \
                 ffmpeg_filter.c \
@@ -496,6 +523,11 @@ ifeq ($(CONFIG_FFMPEG),yes)
         LOCAL_SRC_FILES := \
             cmdutils.c \
             ffmpeg.c
+        ifeq ($(VERSION_BRANCH),1.1)
+            LOCAL_SRC_FILES +=  \
+                ffmpeg_filter.c \
+                ffmpeg_opt.c
+        endif
         ifeq ($(VERSION_BRANCH),1.0)
             LOCAL_SRC_FILES +=  \
                 ffmpeg_filter.c \
@@ -558,12 +590,9 @@ ifeq ($(CONFIG_FFSERVER),yes)
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR)
         LOCAL_SHARED_LIBRARIES := \
             $(TOOLS_LIBRARIES)
-        ifeq ($(TARGET_ARCH),arm)
-            LOCAL_SHARED_LIBRARIES += libdl
-        endif
-        ifeq ($(TARGET_ARCH),x86)
-            LOCAL_SHARED_LIBRARIES += libdl
-        endif
+        LOCAL_SHARED_LIBRARIES += \
+            libdl \
+            libz
         LOCAL_MODULE_TAGS := optional
         LOCAL_MODULE := ffserver$(VERSION_SUFFIX)
         include $(BUILD_EXECUTABLE)
@@ -576,15 +605,10 @@ ifeq ($(CONFIG_FFSERVER),yes)
         LOCAL_C_INCLUDES := \
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR)
         LOCAL_SHARED_LIBRARIES := \
+            libdl \
             libz
         LOCAL_STATIC_LIBRARIES := \
             $(TOOLS_LIBRARIES)
-        ifeq ($(TARGET_ARCH),arm)
-            LOCAL_SHARED_LIBRARIES += libdl
-        endif
-        ifeq ($(TARGET_ARCH),x86)
-            LOCAL_SHARED_LIBRARIES += libdl
-        endif
         LOCAL_MODULE_TAGS := optional
         LOCAL_MODULE := ffserver-static$(VERSION_SUFFIX)
         include $(BUILD_EXECUTABLE)

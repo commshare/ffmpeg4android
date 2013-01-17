@@ -51,8 +51,8 @@ Architecture:       arm, mips, x86
 SDK + NDK release:  platform-11 + NDK-r6, platform-14 + NDK-r8
 Product:            full-eng, full_mips-eng, full_x86-eng, and some
                     proprietary bleeding edge products
-FFmpeg releases:    0.7.13, 0.8.12, 0.9.2, 0.10.6, 0.11.2, 1.0,
-                    HEAD-4bf3bc6
+FFmpeg releases:    0.7.13, 0.8.12, 0.9.2, 0.10.6, 0.11.2, 1.0.1, 1.1,
+                    HEAD-8ac8f04
 
 
 
@@ -71,7 +71,7 @@ Features
   configuration.
 - Builds all libraries and tools, except ffplay.
 - Builds both shared and static libraries.
-- Builds latest releases form 0.7, 0.8, 0.9, 0.10, 0.11, 1.0 and HEAD
+- Builds latest releases form 0.7, 0.8, 0.9, 0.10, 0.11, 1.0, 1.1 and HEAD
   branches.
 - Supports parallel building from the same source for the different
   products.
@@ -82,26 +82,20 @@ Features
 Known issues
 ===========================================================================
 
-- Branches 0.10, 0.9, 0.8, 0.7 cant be built for ARM architecture because
-  of the changes in building Android for ARM. The following flag was added
-  -D_FORTIFY_SOURCE=1, which enables additional constraints in bionic.
-  
-  These constraints are triggered by probably a bug in
-  libavfilter/vf_pixdesctest.c, where memcpy is using same source and
-  destination address.
-  
-  memcpy(outpicref->data[1], outpicref->data[1], 256*4);
-  
-  In later versions, this was changed to
+- None
 
-  memcpy(outpicref->data[1], picref->data[1], 256*4);
-  
-  so 0.11 and higher branches are building fine.
-  
-  As this is ffmpeg bug, it is out of my scope to fix it.
-  
-  To build branches 0.10, 0.9, 0.8, 0.7 for ARM, fix this bug, or downgrade
-  your Android version.
+
+
+===========================================================================
+Note
+===========================================================================
+
+As number of FFmpeg branches grows, the load on my equipment for build
+testing becomes overwhelming. At the same time, interest in older branches,
+like 0.7, 0.8, 0.9, 0.10, 0.11 is slim to none.
+
+In the future, I may stop supporting branches 0.8, 0.9, 0.10 and 0.11.
+I will keep 0.7, because it is the last 0.6 ABI compatible.
 
 
 
@@ -170,7 +164,7 @@ Plan
 Short term plan is to test and update scripts to work on more architectures
 and platforms.
 
-Long term plan is to continue to provide scripst for latest FFmpeg library
+Long term plan is to continue to provide scripts for latest FFmpeg library
 releases, as they appear.
 
 The Ultimate plan is to try to make scripts part of official FFmpeg

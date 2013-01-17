@@ -10,6 +10,8 @@ ARMV6-OBJS :=
 ARMV6-OBJS-yes :=
 ARMVFP-OBJS :=
 ARMVFP-OBJS-yes :=
+VFP-OBJS :=
+VFP-OBJS-yes :=
 NEON-OBJS :=
 NEON-OBJS-yes :=
 MMI-OBJS :=
@@ -36,6 +38,9 @@ FFLIBS-yes :=
 include $(FFMPEG_ROOT_DIR)/$(FFMPEG_LIB_DIR)/Makefile.android
 -include $(FFMPEG_ROOT_DIR)/$(FFMPEG_LIB_DIR)/$(TARGET_ARCH)/Makefile
 
+ifeq ($(VERSION_BRANCH),1.1)
+    include $(FFMPEG_ROOT_DIR)/arch.mak
+endif
 ifeq ($(VERSION_BRANCH),1.0)
     include $(FFMPEG_ROOT_DIR)/arch.mak
 endif

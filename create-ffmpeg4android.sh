@@ -31,6 +31,10 @@ mkdir releases.android
 
 for ffmpegdir in `find ffmpeg*.android -maxdepth 0 -type d | sort -rV`
 do
-    tar czf releases.android/$ffmpegdir.tar.gz $ffmpegdir
+    tar czf releases.android/$ffmpegdir.tar.gz $ffmpegdir &
+done
+
+for ffmpegdir in `find ffmpeg*.android -maxdepth 0 -type d | sort -rV`
+do
     touch -t $RELEASE_TIMESTAMP releases.android/$ffmpegdir.tar.gz
 done
