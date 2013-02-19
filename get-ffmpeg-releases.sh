@@ -10,7 +10,7 @@ wget http://ffmpeg.org/releases/ffmpeg-0.11.2.tar.gz
 wget http://ffmpeg.org/releases/ffmpeg-0.10.6.tar.gz
 wget http://ffmpeg.org/releases/ffmpeg-0.9.2.tar.gz
 wget http://ffmpeg.org/releases/ffmpeg-0.8.12.tar.gz
-wget http://ffmpeg.org/releases/ffmpeg-0.7.13.tar.gz
+wget http://ffmpeg.org/releases/ffmpeg-0.7.14.tar.gz
 
 cd ..
 
