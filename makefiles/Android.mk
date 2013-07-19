@@ -10,7 +10,9 @@ FFMPEG_CONFIG_DIR := android/$(TARGET_PRODUCT)-$(TARGET_BUILD_VARIANT)
 VERSION_SUFFIX := -$(shell (cat $(FFMPEG_ROOT_DIR)/RELEASE))
 $(warning $(VERSION_SUFFIX))
 
-ifeq ($(findstring 1.2, $(VERSION_SUFFIX)),1.2)
+ifeq ($(findstring 2.0, $(VERSION_SUFFIX)),2.0)
+    VERSION_BRANCH := 2.0
+else ($(findstring 1.2, $(VERSION_SUFFIX)),1.2)
     VERSION_BRANCH := 1.2
 else ifeq ($(findstring 1.1, $(VERSION_SUFFIX)),1.1)
     VERSION_BRANCH := 1.1
@@ -502,6 +504,11 @@ ifeq ($(CONFIG_FFMPEG),yes)
         LOCAL_SRC_FILES := \
             cmdutils.c \
             ffmpeg.c
+        ifeq ($(VERSION_BRANCH),2.0)
+            LOCAL_SRC_FILES +=  \
+                ffmpeg_filter.c \
+                ffmpeg_opt.c
+        endif
         ifeq ($(VERSION_BRANCH),1.2)
             LOCAL_SRC_FILES +=  \
                 ffmpeg_filter.c \
@@ -530,6 +537,11 @@ ifeq ($(CONFIG_FFMPEG),yes)
         LOCAL_SRC_FILES := \
             cmdutils.c \
             ffmpeg.c
+        ifeq ($(VERSION_BRANCH),2.0)
+            LOCAL_SRC_FILES +=  \
+                ffmpeg_filter.c \
+                ffmpeg_opt.c
+        endif
         ifeq ($(VERSION_BRANCH),1.2)
             LOCAL_SRC_FILES +=  \
                 ffmpeg_filter.c \

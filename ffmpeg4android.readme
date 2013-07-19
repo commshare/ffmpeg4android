@@ -46,13 +46,13 @@ during my work.
 Makefiles are tested and are working fine on:
 
 Build host OS:      Ubuntu 10.04, Ubuntu 11.04
-Android target OS:  ICS, JB, Android Master branch
+Android target OS:  ICS, JB, GoogleTV 4.2, Android Master branch
 Architecture:       arm, mips, x86
 SDK + NDK release:  platform-11 + NDK-r6, platform-14 + NDK-r8
 Product:            full-eng, full_mips-eng, full_x86-eng, and some
                     proprietary bleeding edge products
 FFmpeg releases:    Latest releases form 0.7, 0.8, 0.9, 0.10, 0.11, 1.0,
-                    1.1, 1.2 and HEAD branches
+                    1.1, 1.2 2.0 and HEAD branches
 
 
 
@@ -71,7 +71,7 @@ Features
   configuration.
 - Builds all libraries and tools, except ffplay.
 - Builds both shared and static libraries.
-- Builds latest releases form 0.7, 0.8, 0.9, 0.10, 0.11, 1.0, 1.1, 1.2 and
+- Builds latest releases form 0.7, 0.8, 0.9, 0.10, 0.11, 1.0, 1.1, 1.2, 2.0 and
   HEAD branches.
 - Supports parallel building from the same source for the different
   products.

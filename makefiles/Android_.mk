@@ -38,6 +38,9 @@ FFLIBS-yes :=
 include $(FFMPEG_ROOT_DIR)/$(FFMPEG_LIB_DIR)/Makefile.android
 -include $(FFMPEG_ROOT_DIR)/$(FFMPEG_LIB_DIR)/$(TARGET_ARCH)/Makefile
 
+ifeq ($(VERSION_BRANCH),2.0)
+    include $(FFMPEG_ROOT_DIR)/arch.mak
+endif
 ifeq ($(VERSION_BRANCH),1.2)
     include $(FFMPEG_ROOT_DIR)/arch.mak
 endif
