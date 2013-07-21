@@ -56,11 +56,13 @@ endif
 
 OBJS += $(OBJS-yes)
 
-FFNAME := lib$(NAME)$(VERSION_SUFFIX)
+#FFNAME := lib$(NAME)
+# removed the version suffix
+FFNAME := lib$(NAME)
 FFLIBS += $(FFLIBS-yes)
-FFLIBS := $(foreach NAME, $(FFLIBS), lib$(NAME)$(VERSION_SUFFIX))
+FFLIBS := $(foreach NAME, $(FFLIBS), lib$(NAME))
 FFLIBS := $(sort $(FFLIBS))
-FFCFLAGS := -DHAVE_AV_CONFIG_H $(CFLAGS) \
+FFCFLAGS := -DHAVE_AV_CONFIG_H -I$(NDK_SYSROOT)/usr/include -L$(NDK_SYSROOT)/usr/lib $(CFLAGS) \
 
 FFCFLAGS_OUTPUT_CLEANING := \
     -Wno-cast-qual \

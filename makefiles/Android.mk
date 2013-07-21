@@ -8,11 +8,11 @@ FFMPEG_ROOT_DIR := $(LOCAL_PATH)
 FFMPEG_CONFIG_DIR := android/$(TARGET_PRODUCT)-$(TARGET_BUILD_VARIANT)
 
 VERSION_SUFFIX := -$(shell (cat $(FFMPEG_ROOT_DIR)/RELEASE))
-$(warning $(VERSION_SUFFIX))
+$(warning The version suffix is $(VERSION_SUFFIX))
 
 ifeq ($(findstring 2.0, $(VERSION_SUFFIX)),2.0)
     VERSION_BRANCH := 2.0
-else ($(findstring 1.2, $(VERSION_SUFFIX)),1.2)
+else ifeq ($(findstring 1.2, $(VERSION_SUFFIX)),1.2)
     VERSION_BRANCH := 1.2
 else ifeq ($(findstring 1.1, $(VERSION_SUFFIX)),1.1)
     VERSION_BRANCH := 1.1
@@ -45,7 +45,7 @@ TOOLS_LIBRARIES :=
 #============================== libavdevice =============================
 ifeq ($(CONFIG_AVDEVICE),yes)
     FFMPEG_LIB_DIR := libavdevice
-    TOOLS_LIBRARIES += libavdevice$(VERSION_SUFFIX)
+    TOOLS_LIBRARIES += libavdevice
     include $(CLEAR_VARS)
     include $(FFMPEG_ROOT_DIR)/Android_.mk
     ifeq ($(CONFIG_SHARED),yes)
@@ -88,7 +88,7 @@ endif
 #============================== libavfilter =============================
 ifeq ($(CONFIG_AVFILTER),yes)
     FFMPEG_LIB_DIR := libavfilter
-    TOOLS_LIBRARIES += libavfilter$(VERSION_SUFFIX)
+    TOOLS_LIBRARIES += libavfilter
     include $(CLEAR_VARS)
     include $(FFMPEG_ROOT_DIR)/Android_.mk
     ifeq ($(CONFIG_SHARED),yes)
@@ -131,7 +131,7 @@ endif
 #============================== libavformat =============================
 ifeq ($(CONFIG_AVFORMAT),yes)
     FFMPEG_LIB_DIR := libavformat
-    TOOLS_LIBRARIES += libavformat$(VERSION_SUFFIX)
+    TOOLS_LIBRARIES += libavformat
     include $(CLEAR_VARS)
     include $(FFMPEG_ROOT_DIR)/Android_.mk
     ifeq ($(CONFIG_SHARED),yes)
@@ -178,7 +178,7 @@ endif
 #============================== libavcodec ==============================
 ifeq ($(CONFIG_AVCODEC),yes)
     FFMPEG_LIB_DIR := libavcodec
-    TOOLS_LIBRARIES += libavcodec$(VERSION_SUFFIX)
+    TOOLS_LIBRARIES += libavcodec
     include $(CLEAR_VARS)
     include $(FFMPEG_ROOT_DIR)/Android_.mk
     ifeq ($(CONFIG_SHARED),yes)
@@ -189,7 +189,7 @@ ifeq ($(CONFIG_AVCODEC),yes)
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
             $(FFMPEG_ROOT_DIR) \
             external/zlib
-        LOCAL_CFLAGS += \
+        LOCAL_CFLAGS = \
             $(FFCFLAGS)
         LOCAL_LDFLAGS += \
             -Wl,--version-script,$(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR)/$(FFMPEG_LIB_DIR)/libavcodec.ver
@@ -209,7 +209,7 @@ ifeq ($(CONFIG_AVCODEC),yes)
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
             $(FFMPEG_ROOT_DIR) \
             external/zlib
-        LOCAL_CFLAGS += \
+        LOCAL_CFLAGS = \
             $(FFCFLAGS)
         LOCAL_STATIC_LIBRARIES := \
             $(FFLIBS) \
@@ -225,7 +225,7 @@ endif
 #============================== libavresample ===========================
 ifeq ($(CONFIG_AVRESAMPLE),yes)
     FFMPEG_LIB_DIR := libavresample
-    TOOLS_LIBRARIES += libavresample$(VERSION_SUFFIX)
+    TOOLS_LIBRARIES += libavresample
     include $(CLEAR_VARS)
     include $(FFMPEG_ROOT_DIR)/Android_.mk
     ifeq ($(CONFIG_SHARED),yes)
@@ -235,7 +235,7 @@ ifeq ($(CONFIG_AVRESAMPLE),yes)
         LOCAL_C_INCLUDES := \
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
             $(FFMPEG_ROOT_DIR)
-        LOCAL_CFLAGS += \
+        LOCAL_CFLAGS = \
             $(FFCFLAGS)
         LOCAL_LDFLAGS += \
             -Wl,--version-script,$(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR)/$(FFMPEG_LIB_DIR)/libavresample.ver
@@ -253,7 +253,7 @@ ifeq ($(CONFIG_AVRESAMPLE),yes)
         LOCAL_C_INCLUDES := \
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
             $(FFMPEG_ROOT_DIR)
-        LOCAL_CFLAGS += \
+        LOCAL_CFLAGS = \
             $(FFCFLAGS)
         LOCAL_STATIC_LIBRARIES := \
             $(FFLIBS)
@@ -268,7 +268,7 @@ endif
 #============================== libpostproc =============================
 ifeq ($(CONFIG_POSTPROC),yes)
     FFMPEG_LIB_DIR := libpostproc
-    TOOLS_LIBRARIES += libpostproc$(VERSION_SUFFIX)
+    TOOLS_LIBRARIES += libpostproc
     include $(CLEAR_VARS)
     include $(FFMPEG_ROOT_DIR)/Android_.mk
     ifeq ($(CONFIG_SHARED),yes)
@@ -278,7 +278,7 @@ ifeq ($(CONFIG_POSTPROC),yes)
         LOCAL_C_INCLUDES := \
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
             $(FFMPEG_ROOT_DIR)
-        LOCAL_CFLAGS += \
+        LOCAL_CFLAGS = \
             $(FFCFLAGS)
         LOCAL_LDFLAGS += \
             -Wl,--version-script,$(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR)/$(FFMPEG_LIB_DIR)/libpostproc.ver
@@ -296,7 +296,7 @@ ifeq ($(CONFIG_POSTPROC),yes)
         LOCAL_C_INCLUDES := \
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
             $(FFMPEG_ROOT_DIR)
-        LOCAL_CFLAGS += \
+        LOCAL_CFLAGS = \
             $(FFCFLAGS)
         LOCAL_STATIC_LIBRARIES := \
             $(FFLIBS)
@@ -311,7 +311,7 @@ endif
 #============================== libswresample ===========================
 ifeq ($(CONFIG_SWRESAMPLE),yes)
     FFMPEG_LIB_DIR := libswresample
-    TOOLS_LIBRARIES += libswresample$(VERSION_SUFFIX)
+    TOOLS_LIBRARIES += libswresample
     include $(CLEAR_VARS)
     include $(FFMPEG_ROOT_DIR)/Android_.mk
     ifeq ($(CONFIG_SHARED),yes)
@@ -321,7 +321,7 @@ ifeq ($(CONFIG_SWRESAMPLE),yes)
         LOCAL_C_INCLUDES := \
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
             $(FFMPEG_ROOT_DIR)
-        LOCAL_CFLAGS += \
+        LOCAL_CFLAGS = \
             $(FFCFLAGS)
         LOCAL_LDFLAGS += \
             -Wl,--version-script,$(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR)/$(FFMPEG_LIB_DIR)/libswresample.ver
@@ -339,7 +339,7 @@ ifeq ($(CONFIG_SWRESAMPLE),yes)
         LOCAL_C_INCLUDES := \
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
             $(FFMPEG_ROOT_DIR)
-        LOCAL_CFLAGS += \
+        LOCAL_CFLAGS = \
             $(FFCFLAGS)
         LOCAL_STATIC_LIBRARIES := \
             $(FFLIBS)
@@ -354,7 +354,7 @@ endif
 #============================== libswscale ==============================
 ifeq ($(CONFIG_SWSCALE),yes)
     FFMPEG_LIB_DIR := libswscale
-    TOOLS_LIBRARIES += libswscale$(VERSION_SUFFIX)
+    TOOLS_LIBRARIES += libswscale
     include $(CLEAR_VARS)
     include $(FFMPEG_ROOT_DIR)/Android_.mk
     ifeq ($(CONFIG_SHARED),yes)
@@ -364,7 +364,7 @@ ifeq ($(CONFIG_SWSCALE),yes)
         LOCAL_C_INCLUDES := \
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
             $(FFMPEG_ROOT_DIR)
-        LOCAL_CFLAGS += \
+        LOCAL_CFLAGS = \
             $(FFCFLAGS)
         LOCAL_LDFLAGS += \
             -Wl,--version-script,$(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR)/$(FFMPEG_LIB_DIR)/libswscale.ver
@@ -382,7 +382,7 @@ ifeq ($(CONFIG_SWSCALE),yes)
         LOCAL_C_INCLUDES := \
             $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
             $(FFMPEG_ROOT_DIR)
-        LOCAL_CFLAGS += \
+        LOCAL_CFLAGS = \
             $(FFCFLAGS)
         LOCAL_STATIC_LIBRARIES := \
             $(FFLIBS)
@@ -396,7 +396,7 @@ endif
 
 #============================== libavutil ===============================
 FFMPEG_LIB_DIR := libavutil
-TOOLS_LIBRARIES += libavutil$(VERSION_SUFFIX)
+TOOLS_LIBRARIES += libavutil
 include $(CLEAR_VARS)
 include $(FFMPEG_ROOT_DIR)/Android_.mk
 ifeq ($(CONFIG_SHARED),yes)
@@ -406,7 +406,7 @@ ifeq ($(CONFIG_SHARED),yes)
     LOCAL_C_INCLUDES := \
         $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
         $(FFMPEG_ROOT_DIR)
-    LOCAL_CFLAGS += \
+    LOCAL_CFLAGS = \
         $(FFCFLAGS)
     LOCAL_LDFLAGS += \
         -Wl,--version-script,$(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR)/$(FFMPEG_LIB_DIR)/libavutil.ver
@@ -424,7 +424,7 @@ ifeq ($(CONFIG_STATIC),yes)
     LOCAL_C_INCLUDES := \
         $(FFMPEG_ROOT_DIR)/$(FFMPEG_CONFIG_DIR) \
         $(FFMPEG_ROOT_DIR)
-    LOCAL_CFLAGS += \
+    LOCAL_CFLAGS = \
         $(FFCFLAGS)
     LOCAL_STATIC_LIBRARIES := \
         $(FFLIBS)
@@ -447,7 +447,7 @@ ifeq ($(CONFIG_AVCONV),yes)
         LOCAL_SHARED_LIBRARIES := \
             $(TOOLS_LIBRARIES)
         LOCAL_MODULE_TAGS := optional
-        LOCAL_MODULE := avconv$(VERSION_SUFFIX)
+        LOCAL_MODULE := avconv
         include $(BUILD_EXECUTABLE)
     endif
     ifeq ($(CONFIG_STATIC),yes)
@@ -460,7 +460,7 @@ ifeq ($(CONFIG_AVCONV),yes)
         LOCAL_STATIC_LIBRARIES := \
             $(TOOLS_LIBRARIES)
         LOCAL_MODULE_TAGS := optional
-        LOCAL_MODULE := avconv-static$(VERSION_SUFFIX)
+        LOCAL_MODULE := avconv-static
         include $(BUILD_EXECUTABLE)
     endif
 endif
@@ -478,7 +478,7 @@ ifeq ($(CONFIG_FFPLAY),yes)
         LOCAL_SHARED_LIBRARIES := \
             $(TOOLS_LIBRARIES)
         LOCAL_MODULE_TAGS := optional
-        LOCAL_MODULE := ffplay$(VERSION_SUFFIX)
+        LOCAL_MODULE := ffplay
         include $(BUILD_EXECUTABLE)
     endif
     ifeq ($(CONFIG_STATIC),yes)
@@ -491,7 +491,7 @@ ifeq ($(CONFIG_FFPLAY),yes)
         LOCAL_STATIC_LIBRARIES := \
             $(TOOLS_LIBRARIES)
         LOCAL_MODULE_TAGS := optional
-        LOCAL_MODULE := ffplay-static$(VERSION_SUFFIX)
+        LOCAL_MODULE := ffplay-static
         include $(BUILD_EXECUTABLE)
     endif
 endif
@@ -529,7 +529,7 @@ ifeq ($(CONFIG_FFMPEG),yes)
         LOCAL_SHARED_LIBRARIES := \
             $(TOOLS_LIBRARIES)
         LOCAL_MODULE_TAGS := optional
-        LOCAL_MODULE := ffmpeg$(VERSION_SUFFIX)
+        LOCAL_MODULE := ffmpeg
         include $(BUILD_EXECUTABLE)
     endif
     ifeq ($(CONFIG_STATIC),yes)
@@ -563,8 +563,8 @@ ifeq ($(CONFIG_FFMPEG),yes)
             libz
         LOCAL_STATIC_LIBRARIES := \
             $(TOOLS_LIBRARIES)
-	LOCAL_MODULE_TAGS := optional
-        LOCAL_MODULE := ffmpeg-static$(VERSION_SUFFIX)
+        LOCAL_MODULE_TAGS := optional
+        LOCAL_MODULE := ffmpeg-static
         include $(BUILD_EXECUTABLE)
     endif
 endif
@@ -582,7 +582,7 @@ ifeq ($(CONFIG_FFPROBE),yes)
         LOCAL_SHARED_LIBRARIES := \
             $(TOOLS_LIBRARIES)
         LOCAL_MODULE_TAGS := optional
-        LOCAL_MODULE := ffprobe$(VERSION_SUFFIX)
+        LOCAL_MODULE := ffprobe
         include $(BUILD_EXECUTABLE)
     endif
     ifeq ($(CONFIG_STATIC),yes)
@@ -597,7 +597,7 @@ ifeq ($(CONFIG_FFPROBE),yes)
         LOCAL_STATIC_LIBRARIES := \
             $(TOOLS_LIBRARIES)
         LOCAL_MODULE_TAGS := optional
-        LOCAL_MODULE := ffprobe-static$(VERSION_SUFFIX)
+        LOCAL_MODULE := ffprobe-static
         include $(BUILD_EXECUTABLE)
     endif
 endif
@@ -618,7 +618,7 @@ ifeq ($(CONFIG_FFSERVER),yes)
             libdl \
             libz
         LOCAL_MODULE_TAGS := optional
-        LOCAL_MODULE := ffserver$(VERSION_SUFFIX)
+        LOCAL_MODULE := ffserver
         include $(BUILD_EXECUTABLE)
     endif
     ifeq ($(CONFIG_STATIC),yes)
@@ -634,7 +634,7 @@ ifeq ($(CONFIG_FFSERVER),yes)
         LOCAL_STATIC_LIBRARIES := \
             $(TOOLS_LIBRARIES)
         LOCAL_MODULE_TAGS := optional
-        LOCAL_MODULE := ffserver-static$(VERSION_SUFFIX)
+        LOCAL_MODULE := ffserver-static
         include $(BUILD_EXECUTABLE)
     endif
 endif

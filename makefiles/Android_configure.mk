@@ -13,6 +13,7 @@ NDK_CROSS_PREFIX := $(subst -gcc,-,$(shell (ls $(ANDROID_TOOLCHAIN)/*gcc)))
 
 # Always select highest NDK and SDK version
 NDK_SYSROOT := $(ANDROID_BUILD_TOP)/$(shell (ls -dv prebuil*/ndk/*[0-9]/platforms/android-*/arch-$(TARGET_ARCH) | tail -1))
+#NDK_SYSROOT := $(ANDROID_BUILD_TOP)/prebuilts/ndk/8/platforms/android-8/arch-arm
 
 # Fix for latest master branch
 ifeq ($(NDK_SYSROOT),$(ANDROID_BUILD_TOP)/)
@@ -20,6 +21,7 @@ ifeq ($(NDK_SYSROOT),$(ANDROID_BUILD_TOP)/)
 endif
 
 
+    $(warning ============The NDK_SYSROOT is $(NDK_SYSROOT)==============)
 
 FF_CONFIGURATION_STRING := \
     --arch=$(TARGET_ARCH) \
@@ -32,7 +34,8 @@ FF_CONFIGURATION_STRING := \
 
 ifeq ($(VERSION_BRANCH),2.0)
     FF_CONFIGURATION_STRING += \
-        --enable-avresample
+        --enable-avresample \
+        --disable-symver
 endif
 
 ifeq ($(VERSION_BRANCH),1.2)
@@ -437,10 +440,18 @@ ifneq ($(FF_CONFIGURATION_STRING), $(FF_LAST_CONFIGURATION_STRING_OUTPUT))
     $(warning ============================================================)
 
 
-
     ifeq ($(VERSION_BRANCH),2.0)
         FF_FIX_MAKEFILES_COMMAND := \
             cd $(FFMPEG_ROOT_DIR); \
+                sed -i 's/LIBAVRESAMPLE_$MAJOR //g' libavresample/libavresample.v; \
+                sed -i 's/LIBPOSTPROC_$MAJOR //g' libpostproc/libpostproc.v; \
+                sed -i 's/LIBAVCODEC_$MAJOR //g' libavcodec/libavcodec.v; \
+                sed -i 's/LIBSWSCALE_$MAJOR //g' libswscale/libswscale.v; \
+                sed -i 's/LIBAVFORMAT_$MAJOR //g' libavformat/libavformat.v; \
+                sed -i 's/LIBAVUTIL_$MAJOR //g' libavutil/libavutil.v; \
+                sed -i 's/LIBAVFILTER_$MAJOR //g' libavfilter/libavfilter.v; \
+                sed -i 's/LIBSWRESAMPLE_$MAJOR //g' libswresample/libswresample.v; \
+                sed -i 's/LIBAVDEVICE_$MAJOR //g' libavdevice/libavdevice.v; \
                 sed 's/include $$(SUBDIR)..\/config.mak/\#include $$(SUBDIR)..\/config.mak/g' libavcodec/Makefile     > libavcodec/Makefile.android; \
                 sed 's/include $$(SUBDIR)..\/config.mak/\#include $$(SUBDIR)..\/config.mak/g' libavdevice/Makefile    > libavdevice/Makefile.android; \
                 sed 's/include $$(SUBDIR)..\/config.mak/\#include $$(SUBDIR)..\/config.mak/g' libavfilter/Makefile    | \
